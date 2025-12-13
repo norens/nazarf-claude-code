@@ -1,0 +1,21 @@
+{
+  "name": "nazarf-claude-code",
+  "owner": {
+    "name": "Nazarf",
+    "contact": "github.com/norens"
+  },
+  "description": "Nazarf's curated Claude Code setup for productive development",
+  "plugins": [
+    {
+      "name": "nazarf-claude-code",
+      "source": "./",
+      "description": "Personal Claude Code configuration with 14 productivity commands and 11 specialized AI agents for modern web development",
+      "version": "1.0.0",
+      "author": {
+        "name": "Nazarf",
+        "email": "[email protected]"
+      },
+      "tags": ["productivity", "nextjs", "supabase", "typescript", "react", "development"]
+    }
+  ]
+}
