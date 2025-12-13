@@ -2,9 +2,12 @@
   "name": "nazarf-claude-code",
   "version": "1.0.0",
   "description": "Nazarf's personal Claude Code setup with 14 productivity commands and 11 specialized AI agents for modern web development",
-  "author": "Nazarf",
+  "author": {
+    "name": "Nazarf",
+    "email": "[email protected]"
+  },
   "license": "MIT",
-  "commands": [
+  "slashCommands": [
     {
       "name": "new-task",
       "path": ".claude/commands/new-task.md",
@@ -149,15 +152,5 @@
       "args": ["-y", "@supabase/mcp-server-supabase"],
       "description": "Supabase database operations and management"
     }
-  },
-  "tags": [
-    "productivity",
-    "nextjs",
-    "supabase",
-    "typescript",
-    "react",
-    "api",
-    "development",
-    "mcp"
-  ]
+  }
 }
