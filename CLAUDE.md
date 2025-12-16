@@ -49,24 +49,27 @@ git clone https://github.com/norens/nazarf-claude-code.git
 ## Repository Structure
 
 ```
-.claude/
-├── commands/              # 14 slash commands
-│   ├── api/              # API route creation/testing/protection
-│   ├── misc/             # Dev utilities (lint, optimize, cleanup, docs)
-│   ├── ui/               # Component and page generation
-│   ├── supabase/         # Supabase type gen and edge functions
-│   └── new-task.md       # Task complexity analyzer
+nazarf-claude-code/
+├── .claude-plugin/
+│   ├── plugin.json           # Plugin metadata
+│   ├── marketplace.json      # Marketplace registration metadata
+│   └── MCP-SERVERS.md        # Documentation for integrated MCP servers
 │
-├── agents/               # 11 specialized AI agents
+├── commands/                 # 14 slash commands (auto-discovered)
+│   ├── api/                  # API route creation/testing/protection
+│   ├── misc/                 # Dev utilities (lint, optimize, cleanup, docs)
+│   ├── ui/                   # Component and page generation
+│   ├── supabase/             # Supabase type gen and edge functions
+│   └── new-task.md           # Task complexity analyzer
+│
+├── agents/                   # 11 specialized AI agents (auto-discovered)
 │   ├── Architecture: tech-stack-researcher, system-architect, backend-architect,
 │   │                 frontend-architect, requirements-analyst
 │   ├── Quality: refactoring-expert, performance-engineer, security-engineer
 │   └── Docs: technical-writer, learning-guide, deep-research-agent
 │
-.claude-plugin/
-├── plugin.json           # Main plugin configuration (commands, agents, MCP servers)
-├── marketplace.json      # Marketplace registration metadata
-└── MCP-SERVERS.md        # Documentation for integrated MCP servers
+└── .claude/                  # Local settings (not part of plugin)
+    └── settings.local.json
 ```
 
 ## Command Architecture
@@ -86,7 +89,7 @@ model: claude-sonnet-4-5  # Model to use for execution
 - Commands are invoked via `/command-name` in Claude Code
 - User input is injected via `$ARGUMENTS` variable
 - Each command file is a complete system prompt defining behavior
-- Located in `.claude/commands/` (organized by category)
+- Located in `commands/` directory (organized by category)
 
 ## Agent Architecture
 
@@ -107,19 +110,18 @@ color: green  # UI color hint
 - Agents activate automatically when user queries match descriptions
 - Multiple agents can be active in a single conversation
 - Provide domain-specific expertise (architecture, security, performance, etc.)
-- Located in `.claude/agents/`
+- Located in `agents/` directory (auto-discovered by Claude Code)
 
 ## Plugin Configuration
 
 **File**: `.claude-plugin/plugin.json`
 
-Defines:
-- All commands with paths and descriptions
-- All agents with paths and descriptions
-- MCP server configurations (Context7, Playwright, Supabase)
-- Plugin metadata (version, author, license, tags)
+Contains only plugin metadata:
+- name, version, description
+- author information
+- license
 
-**Critical**: Any new command/agent must be registered in `plugin.json` to be discoverable.
+**Auto-discovery**: Commands and agents are automatically discovered from `commands/` and `agents/` directories - no need to register them in plugin.json.
 
 ## MCP Servers
 
@@ -170,23 +172,16 @@ All commands follow these principles:
 
 ### Adding a New Command
 
-1. Create markdown file in `.claude/commands/[category]/command-name.md`
+1. Create markdown file in `commands/[category]/command-name.md`
 2. Use YAML front-matter format (see examples in existing commands)
-3. Register in `.claude-plugin/plugin.json` under `commands` array:
-   ```json
-   {
-     "name": "command-name",
-     "path": ".claude/commands/category/command-name.md",
-     "description": "Brief description"
-   }
-   ```
+3. Commands are auto-discovered - no registration needed
 4. Test with `/command-name` after reinstalling plugin
 
 ### Adding a New Agent
 
-1. Create markdown file in `.claude/agents/agent-name.md`
+1. Create markdown file in `agents/agent-name.md`
 2. Use YAML front-matter with `name`, `description`, `model`, `color`
-3. Register in `.claude-plugin/plugin.json` under `agents` array
+3. Agents are auto-discovered - no registration needed
 4. Description should clearly define when agent activates
 5. Test by asking questions that should trigger agent
 
@@ -243,8 +238,8 @@ Current version: 1.0.0
 # Check all required files exist
 ls .claude-plugin/plugin.json
 ls .claude-plugin/marketplace.json
-ls .claude/commands/
-ls .claude/agents/
+ls commands/
+ls agents/
 ```
 
 ### View Plugin Configuration
